@@ -1,94 +1,72 @@
-import { prisma } from "@/app/_clients/prisma";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { Suspense } from "react";
-import { deleteAll } from "./_actions/items";
+import Link from "next/link";
+import { PropsWithChildren, Suspense } from "react";
+import { status } from "./_actions/payment";
 import { options } from "./_clients/nextAuth";
+import { CancelPaymentButton } from "./_components/CancelPaymentButton";
+import { SignInButton } from "./_components/SignInButton";
+import { SignOutButton } from "./_components/SignoutButton";
 
 export default async function Page() {
-  return (
-    <div className="space-y-5">
-      <Suspense fallback={<p>loading ...</p>}>
-        <Status />
-      </Suspense>
-      <Suspense fallback={<p>loading ...</p>}>
-        <List />
-      </Suspense>
-    </div>
-  );
-}
-
-async function Status() {
   const session = await getServerSession(options);
 
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-col gap-6">
       <p className="text-gray-300">
         {session?.user
           ? `you are signed in as ${session.user.name} 😄`
           : "you are not signed in 🥲"}
       </p>
-      {session?.user && (
-        <form action={deleteAll}>
-          <button
-            type="submit"
-            className="py-2 px-4 bg-orange-800 rounded-md text-sm text-gray-100"
-          >
-            Delete my items
-          </button>
-        </form>
-      )}
+      <hr className="divide-x-2" />
+      {!session?.user ? <SignInButton /> : <SignOutButton />}
+      <Section title="For logged in users">
+        <Link href="/free-page">👉 free page</Link>
+        <Link href="/subscription">
+          👉 subscription page to visit for the paid page
+        </Link>
+      </Section>
+      <Section title="For paid users">
+        <Link href="/paid-page">👉 paid page</Link>
+      </Section>
+      <Section title="Payment status">
+        {session?.user.isPaid ? (
+          <Suspense fallback={<p>Loading...</p>}>
+            <PaymentStatus />
+          </Suspense>
+        ) : (
+          <p>You haven't paid yet 🥲</p>
+        )}
+      </Section>
     </div>
   );
 }
 
-async function List() {
-  const data = await prisma.item.findMany({
-    include: {
-      user: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+async function PaymentStatus() {
+  const { data } = await status();
 
   return (
-    <section className="space-y-4" role="list" aria-label="items">
-      {data.map(({ id, content, createdAt, user }) => (
-        <div
-          key={id}
-          className="border border-gray-600 p-4 flex justify-between items-start"
-          role="listitem"
-        >
-          <div className="flex justify-center gap-4 items-center">
-            {user.image && (
-              <Image
-                alt={user.name ?? "no name"}
-                src={user.image}
-                width={56}
-                height={56}
-                className="rounded-full border-2 border-gray-300"
-                priority
-              />
-            )}
-            <h2
-              className="font-semibold md:text-xl break-all"
-              title="memo title"
-            >
-              {content}
-            </h2>
+    <div className="space-y-4">
+      {data.map(({ id, start_date, status }) => (
+        <div key={id}>
+          <div className="flex gap-10 items-center">
+            <p className="text-sm">{id}</p>
+            <CancelPaymentButton subscriptionId={id} />
           </div>
-          <span className="text-sm text-gray-300">
-            {createdAt.toLocaleDateString("ja-JP", {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-            })}
-          </span>
+          <div className="ml-4 mt-2">
+            <p>start_date: {new Date(start_date * 1000).toLocaleString()}</p>
+            <p>status: {status}</p>
+          </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function Section({ title, children }: PropsWithChildren<{ title: string }>) {
+  return (
+    <section className="flex flex-col gap-6">
+      <h2 className="font-semibold text-lg">{title}</h2>
+      <div className="ml-5 flex flex-col gap-4 text-gray-300">{children}</div>
     </section>
   );
 }

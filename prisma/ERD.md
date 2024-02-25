@@ -30,7 +30,7 @@ erDiagram
 
 
   "users" {
-    String id "🗝️"
+    String is_paid "🗝️"
     String name "❓"
     String email "❓"
     DateTime email_verified "❓"
@@ -39,6 +39,8 @@ erDiagram
     DateTime created_at
     DateTime updated_at
     String role "❓"
+    String stripe_customer_id "❓"
+    Boolean is_paid "❓"
     }
 
 
@@ -50,19 +52,8 @@ erDiagram
     DateTime updated_at
     }
 
-
-  "items" {
-    String id "🗝️"
-    String content
-    String userId
-    DateTime created_at
-    DateTime updated_at
-    }
-
     "accounts" o|--|| "users" : "user"
     "sessions" o|--|| "users" : "user"
     "users" o{--}o "accounts" : "accounts"
     "users" o{--}o "sessions" : "sessions"
-    "users" o{--}o "items" : "items"
-    "items" o|--|| "users" : "user"
 ```

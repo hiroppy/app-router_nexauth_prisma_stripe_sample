@@ -54,19 +54,21 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  website       String?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime? @map("email_verified")
+  image            String?
+  website          String?
+  accounts         Account[]
+  sessions         Session[]
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
   // https://authjs.dev/guides/basics/role-based-access-control
-  role          String?
-  items         Item[]
+  role             String?
+  // stripe
+  stripeCustomerId String?   @unique @map("stripe_customer_id")
+  isPaid           Boolean?  @default(false) @map("is_paid")
 
   @@map("users")
 }
@@ -80,16 +82,4 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
-}
-
-// example model
-model Item {
-  id        String   @id @default(cuid())
-  content   String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("items")
 }
