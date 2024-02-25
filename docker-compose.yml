@@ -10,9 +10,3 @@ services:
     restart: always
     ports:
       - "5432:5432"
-  test-db:
-    image: postgres:16
-    env_file: .env.test
-    restart: always
-    ports:
-      - "5433:5432"

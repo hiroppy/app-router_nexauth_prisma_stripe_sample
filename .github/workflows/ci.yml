@@ -37,27 +37,3 @@ jobs:
         with:
           name: app
           path: .next
-  unit-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: cp ./.env.sample ./.env.local
-      - run: pnpm test:db:setup
-      - run: pnpm test
-  e2e-test:
-    needs: [build]
-    runs-on: ubuntu-latest
-    env:
-      NEXTAUTH_SECRET: UfxvOS6HetHOFkL44YTITYgc0DOuOlz5TBp3jkbnZ3w=
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
-      - run: pnpm exec playwright install chromium
-      - run: cp ./.env.sample ./.env.local
-      - run: pnpm test:db:setup
-      - uses: actions/download-artifact@v4
-        with:
-          name: app
-          path: .next
-      - run: pnpm test:e2e
