@@ -1,5 +1,7 @@
 This sample shows how to handle Stripe payments using NextAuth and Prisma based on Next.js's app router.
 
+Dummy cards: https://docs.stripe.com/testing
+
 ## Setup
 
 **Installing Docker Compose**
