@@ -36,7 +36,7 @@
     "@biomejs/biome": "1.5.3",
     "@types/node": "20.11.24",
     "@types/react": "18.2.63",
-    "@types/react-dom": "18.2.19",
+    "@types/react-dom": "18.2.20",
     "autoprefixer": "10.4.18",
     "dotenv-cli": "7.3.0",
     "lint-staged": "15.2.2",
