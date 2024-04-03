@@ -35,8 +35,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
     "@types/node": "20.11.30",
-    "@types/react": "18.2.73",
-    "@types/react-dom": "18.2.23",
+    "@types/react": "18.2.74",
+    "@types/react-dom": "18.2.24",
     "autoprefixer": "10.4.19",
     "dotenv-cli": "7.3.0",
     "lint-staged": "15.2.2",
