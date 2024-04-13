@@ -2,7 +2,7 @@
   "name": "app-router_nexauth_prisma_stripe_sample",
   "version": "0.0.0",
   "description": "",
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@8.15.7",
   "scripts": {
     "setup": "git config --local core.hooksPath .githooks && corepack enable pnpm",
     "dev": "pnpm dev:db:setup && next dev",
