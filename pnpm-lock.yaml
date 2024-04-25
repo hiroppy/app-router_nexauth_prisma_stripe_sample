@@ -24,8 +24,8 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   stripe:
-    specifier: 14.18.0
-    version: 14.18.0
+    specifier: 15.4.0
+    version: 15.4.0
 
 devDependencies:
   '@biomejs/biome':
@@ -2011,8 +2011,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /stripe@14.18.0:
-    resolution: {integrity: sha512-yLqKPqYgGJbMxrQiE4+i2i00ZVA2NRIZbZ1rejzj5XR3F3Uc+1iy9QE133knZudhVGMw367b8vTpB8D9pYMETw==}
+  /stripe@15.4.0:
+    resolution: {integrity: sha512-o3STlHYUmJh1ogAem434As7hCMEGG43R1fFkX0NuxabnmZoOQ9Ytxuu+e5Tq5NSE3LPUIV64jbjQebHoZvLTKw==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 20.11.30
